@@ -1,5 +1,9 @@
 # python-saxon-c-cl-wrapper
-Wrapps interaction with the Saxon C jars on the command line in a Python class for ease of usage, f.e. in Jupyter Notebooks.
+Wrapps interaction with the Saxon C jars on the command line in a Python class for easier  usage of XPath 3.0, XQuery 3.0, and XSLT 3.0, f.e. in Jupyter Notebooks.
+
+Because the class is only a thin wrapper to the Saxon CLI the methods are rather slow.
+
+An example Jupyter notebook may be found [here](https://github.com/hou2zi0/python-saxon-c-cl-wrapper/blob/master/Example.ipynb).
 
 ## Usage
 
@@ -8,7 +12,7 @@ Download the `Py3SaxCCLIWrapper` folder or clone the repository into a section o
 import sys
 sys.path.append(r'./path/to/module/folder')
 ```
-Download the `Saxon9 Home Edition jars` here and put them somewhere in your user directory, e.g.:
+Download the `Saxon9 Home Edition jars` [here](https://www.saxonica.com/download/c.xml) and put them somewhere in your user directory, e.g.:
 ```
 /Users/user/saxon/saxon9he.jar
 ```
