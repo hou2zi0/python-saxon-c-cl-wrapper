@@ -33,3 +33,23 @@ Now every method will work on this XML file, unless a specific string input is s
 ```python
 PMS.XSLT('/Users/max/test.xsl', fromString=fromString)
 ```
+
+## Available methods
+
+|Method|Input|Output|
+|---|---|---|
+|XPath|XPath query as string, file path to source or string|string|
+|XQuery|file path to XQuery file, file path to source or string|string|
+|XSLT|file path to XSLT file, file path to source or string|string|
+|count|XPath query as string|Integer|
+|countDistinct|XPath query as string|Integer|
+|count|XPath query as string|Integer|
+|findAllTextNodesOf|XPath query as string|List of strings|
+|findAllNodes|XPath query as string|List of strings|
+
+
+
+## ToDo
+
+* Refactor 
+* Add more methods
