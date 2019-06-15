@@ -33,27 +33,20 @@ class PyMiniSaxon:
             print(f'File Path error: "{file}" is not a correct path.')
             self.file = ""
 
-    #def setSourceFromString(self, file):
-    #    if Path(f'{file}').is_file():
-    #        # file exists
-    #        self.file = file
-    #    else:
-    #        print(f'File Path error: "{file}" is not a correct path.')
-    #        self.file = ""
-
     # XPath, XQuery, XSLT methods
     def XPath(self, node, fromString=False):
         querystring = f'{node}'
 
-        if (self.saxonpath != '' and self.file != '' ):
-            if (fromString == False):
+        if (self.saxonpath != ''):
+            if (fromString == False and self.file != ''):
                 querystring_result = sub.run(['java', '-cp', self.saxonpath, 'net.sf.saxon.Query', f'-s:file:{self.file}', f'-qs:{querystring}'],
                        capture_output=True,
                        text=True)
             else:
-                querystring_result = sub.run(['java', '-cp', self.saxonpath, 'net.sf.saxon.Query', f'-qs:parse-xml-fragment("{fromString}"){querystring}'],
+                querystring_result = sub.run(['java', '-cp', self.saxonpath, 'net.sf.saxon.Query', f'-s:-', f'-qs:{querystring}'],
                        capture_output=True,
-                       text=True)
+                       text=True,
+                       input=fromString)
         else:
             if (self.saxonpath != ''):
                 print(f'Saxon Path error: {saxonpath} is not a correct path.')
@@ -72,8 +65,8 @@ class PyMiniSaxon:
             print(f'XQuery file path error: "{xquery_file}" is not a correct path.')
             return ''
 
-        if (self.saxonpath != '' and self.file != '' ):
-            if (fromString == False):
+        if (self.saxonpath != ''):
+            if (fromString == False and self.file != '' ):
                 querystring_result = sub.run(['java', '-cp', self.saxonpath, 'net.sf.saxon.Query', f'-s:file:{self.file}', f'-q:{xquery_file}'],
                        capture_output=True,
                        text=True)
@@ -100,8 +93,8 @@ class PyMiniSaxon:
             print(f'XQuery file path error: "{xslt_file}" is not a correct path.')
             return ''
 
-        if (self.saxonpath != '' and self.file != '' ):
-            if (fromString == False):
+        if (self.saxonpath != ''):
+            if (fromString == False and self.file != '' ):
                 querystring_result = sub.run(['java', '-cp', self.saxonpath, 'net.sf.saxon.Transform', f'-s:file:{self.file}', f'-xsl:{xslt_file}'],
                        capture_output=True,
                        text=True)
