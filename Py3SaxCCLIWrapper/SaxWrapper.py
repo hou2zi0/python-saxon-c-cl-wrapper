@@ -1,12 +1,12 @@
 from . import SAXONPATH
-from pathlib import Path
+from pathlib import Path, PurePath
 import subprocess as sub
+import os
 
 class PyMiniSaxon:
     def __init__(self, saxonpath=SAXONPATH, file=False, def_ns=False):
         self.setSaxonPath(saxonpath)
         self.setSourceFromFile(file)
-
 
     # https://dbader.org/blog/python-repr-vs-str
     def __repr__(self):
@@ -88,14 +88,17 @@ class PyMiniSaxon:
             print(f'The query {node} raised an error: {querystring_result.stderr}')
             return None
 
-    def XSLT(self, xslt_file, fromString=False):
+    def XSLT(self, xslt_file, fromString=False, sourcefile=False):
         if Path(f'{xslt_file}').is_file() == False:
             print(f'XQuery file path error: "{xslt_file}" is not a correct path.')
             return ''
 
+        if Path(f'{sourcefile}').is_file() == False:
+            sourcefile = self.file
+
         if (self.saxonpath != ''):
-            if (fromString == False and self.file != '' ):
-                querystring_result = sub.run(['java', '-cp', self.saxonpath, 'net.sf.saxon.Transform', f'-s:file:{self.file}', f'-xsl:{xslt_file}'],
+            if (fromString == False and sourcefile != '' ):
+                querystring_result = sub.run(['java', '-cp', self.saxonpath, 'net.sf.saxon.Transform', f'-s:file:{sourcefile}', f'-xsl:{xslt_file}'],
                        capture_output=True,
                        text=True)
             else:
@@ -198,7 +201,6 @@ class PyMiniSaxon:
             return None
 
 
-
     ####
     # Helper methods
     ####
@@ -223,3 +225,7 @@ class PyMiniSaxon:
         if (bool(out_list) == False):
             out_list.append(thestring)
         return out_list
+
+    # FODT
+    def reduceFODT(self, file=False):
+        return self.XSLT(f'{os.path.dirname(__file__)}/ressources/XSLT/fodt_reduce_to_simple_xml.xsl', sourcefile=file)
